@@ -233,6 +233,9 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                     <div id="paint" style={{display:"none"}}></div>
                 </div>
             </div>
+            <footer>
+                <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
+            </footer>
         </div>
     );
 }
