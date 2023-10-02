@@ -24,8 +24,6 @@ function App() {
                   setLineColor={setLineColor}
                   setLineWidth={setLineWidth}
                   setLineOpacity={setLineOpacity}
-                  // width={cWidth}
-                  // height={cHeight}
               />
           </div>
         </div>

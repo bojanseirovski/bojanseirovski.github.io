@@ -13,7 +13,7 @@ type CanvasProps = {
 }
 
 const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
-    const {lineColor, lineOpacity, lineWidth, width, height, setLineColor, setLineWidth, setLineOpacity } = props;
+    const {lineColor, lineOpacity, lineWidth, setLineColor, setLineWidth, setLineOpacity } = props;
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const ctxRef = React.useRef<CanvasRenderingContext2D | null>(null);
     const [isDrawing, setIsDrawing] = useState(false);
