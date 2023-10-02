@@ -1,15 +1,23 @@
-import React, {useState  } from "react";
+import React, {useState} from "react";
 import Canvas from "./components/Canvas";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
   const [lineWidth, setLineWidth] = useState(20);
   const [lineColor, setLineColor] = useState("black");
   const [lineOpacity, setLineOpacity] = useState(100);
-  const [colorImage, setImage] = useState('/chibi-mario.svg');
+
+  let cWidth = window.innerWidth*0.55;
+  let cHeight =  window.innerHeight*0.5;
+  React.useEffect(() => {
+    function handleResize() {
+      cWidth = window.innerWidth*0.55;
+      cHeight =  window.innerHeight*0.55;
+    }
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
     <div className="App">
@@ -20,13 +28,11 @@ function App() {
                   lineOpacity={lineOpacity}
                   lineColor={lineColor}
                   lineWidth={lineWidth}
-                  imageUri={colorImage}
                   setLineColor={setLineColor}
                   setLineWidth={setLineWidth}
                   setLineOpacity={setLineOpacity}
-                  setImage = {setImage}
-                  width={900}
-                  height={550}
+                  width={cWidth}
+                  height={cHeight}
               />
           </div>
         </div>

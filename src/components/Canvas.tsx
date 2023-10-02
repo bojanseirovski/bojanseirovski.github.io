@@ -7,7 +7,6 @@ type CanvasProps = {
     lineWidth: number;
     width:number;
     height:number;
-    imageUri: string;
     setLineColor: string;
 	setLineWidth: number;
 	setLineOpacity: number;
@@ -229,7 +228,8 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         onMouseMove={draw}
                         ref={canvasRef}
                         width={width}
-                        height={height}/>
+                        height={height}
+                        />
                     <div id="paint" style={{display:"none"}}></div>
                 </div>
             </div>
