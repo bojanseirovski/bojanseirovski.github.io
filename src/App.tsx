@@ -9,16 +9,8 @@ function App() {
   const [lineColor, setLineColor] = useState("black");
   const [lineOpacity, setLineOpacity] = useState(100);
 
-  var cWidth = window.innerWidth*0.55;
-  var cHeight =  window.innerHeight*0.5;
-  React.useEffect(() => {
-    function handleResize() {
-      let cCanvas = document.getElementById('canvasDraw');
-      cCanvas.width = window.innerWidth*0.55;
-      cCanvas.height =  window.innerHeight*0.55;
-    }
-    window.addEventListener('resize', handleResize);
-  });
+  // var cWidth = window.innerWidth*0.55;
+  // var cHeight =  window.innerHeight*0.5;
 
   return (
     <div className="App">
@@ -32,8 +24,8 @@ function App() {
                   setLineColor={setLineColor}
                   setLineWidth={setLineWidth}
                   setLineOpacity={setLineOpacity}
-                  width={cWidth}
-                  height={cHeight}
+                  // width={cWidth}
+                  // height={cHeight}
               />
           </div>
         </div>

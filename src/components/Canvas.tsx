@@ -27,6 +27,9 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     let canvasId:string = "canvasDraw";
     let selectedColor: string = "#000000";
 
+    var cWidth = window.innerWidth*0.55;
+    var cHeight =  window.innerHeight*0.5;
+
     useEffect(() => {
         let canvas = canvasRef.current;
         let ctx = canvas?.getContext("2d");
@@ -36,6 +39,12 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         ctx.strokeStyle = lineColor;
         ctx.lineWidth = lineWidth;
         ctxRef.current = ctx;
+        function handleResize() {
+            let cCanvas = document.getElementById('canvasDraw');
+            cCanvas.width = window.innerWidth*0.55;
+            cCanvas.height =  window.innerHeight*0.55;
+          }
+          window.addEventListener('resize', handleResize);
     }, [lineColor, lineOpacity, lineWidth]);
 
 
@@ -71,7 +80,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     const clearDrawing = () => {
         resetColors();
         setBlackColor();
-        ctxRef.current.clearRect(0, 0, width, height);
+        ctxRef.current.clearRect(0, 0, cWidth, cHeight);
     }
   
     const draw = (e:any) => {
@@ -117,7 +126,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     const setColoringBg = () => {
         let index =  Math.floor(Math.random() * 3);
 
-        setBgImage(height, width, ctxRef.current, "/img/" + imgList[index]);
+        setBgImage(cHeight, cWidth, ctxRef.current, "/img/" + imgList[index]);
     }
 
     return (
@@ -227,8 +236,8 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         onMouseUp={endDrawing}
                         onMouseMove={draw}
                         ref={canvasRef}
-                        width={width}
-                        height={height}
+                        width={cWidth}
+                        height={cHeight}
                         />
                     <div id="paint" style={{display:"none"}}></div>
                 </div>
