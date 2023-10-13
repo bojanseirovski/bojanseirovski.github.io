@@ -48,9 +48,6 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
             cntx.lineWidth = lineWidth;
         }
 
-        function preventDefaultTouch(e:any) {
-            e.preventDefault();
-        }
         window.addEventListener('resize', handleResize);
     }, [lineColor, lineOpacity, lineWidth]);
 
