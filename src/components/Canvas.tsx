@@ -42,13 +42,16 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
 
         function handleResize() {
             let cCanvas = document.getElementById('canvasDraw');
-            cCanvas.width = window.innerWidth*0.55;
-            cCanvas.height =  window.innerHeight*0.55;
+            cCanvas.width = window.innerWidth * 0.55;
+            cCanvas.height = window.innerHeight * 0.55;
             let cntx = cCanvas?.getContext("2d");
             cntx.lineWidth = lineWidth;
-          }
+        }
 
-          window.addEventListener('resize', handleResize);
+        function preventDefaultTouch(e:any) {
+            e.preventDefault();
+        }
+        window.addEventListener('resize', handleResize);
     }, [lineColor, lineOpacity, lineWidth]);
 
 
@@ -92,14 +95,26 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         ctxRef.current?.stroke();
     };
 
+    const startDrawingTouch = (e:any) => {
+        let offsetX = e.touches[0].pageX - canvasRef.current.getBoundingClientRect().left;
+        let offsetY = e.touches[0].pageY - canvasRef.current.getBoundingClientRect().top;
+        ctxRef.current?.beginPath();
+        ctxRef.current?.moveTo(
+            offsetX,
+            offsetY
+        );
+        setIsDrawing(true);
+    };
+  
     const drawTouch = (e:any) => {
         if (!isDrawing) {
             return;
         }
-        console.log(e);
+        let offsetX = e.touches[0].pageX - canvasRef.current.getBoundingClientRect().left;
+        let offsetY = e.touches[0].pageY - canvasRef.current.getBoundingClientRect().top;
         ctxRef.current?.lineTo(
-            e.nativeEvent.offsetX,
-            e.nativeEvent.offsetY
+            offsetX,
+            offsetY
         );
         ctxRef.current?.stroke();
     };
@@ -113,7 +128,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     const updateColorFromPalette = (e:any) => {
         resetColors();
         selectedColor = e.target.getAttribute("data-color");
-        e.target.style.marginLeft = "20%";
+        e.target.style.marginLeft = "40%";
         setLineColor(selectedColor);
     }
 
@@ -190,7 +205,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         </div> */}
                     </div>
                     <div className="row paletteContainer mt-4">
-                        <div className="col-12 mt-2 brushWidth">
+                        <div className="col-12 brushWidth">
                             <label>Width</label>
                             <input
                                 type="range"
@@ -200,7 +215,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                                 onChange={updateLineWidth}
                             />
                         </div>
-                        <div className="col-12 mt-2 opacity">
+                        <div className="col-12 opacity">
                             <label>Opacity</label>
                             <input
                                 type="range"
@@ -213,7 +228,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         <div className="col-12 paletteWidth">
                             <button
                                 type="button"
-                                className="btn btn-secondary btn-lg color mt-2"
+                                className="btn btn-secondary btn-lg color"
                                 title="white"
                                 data-color="white"
                                 key="white"
@@ -225,7 +240,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                                 src={"/img/"+ color.color+".png"}
                                 alt={color.color}
                                 data-color={color.color}
-                                className="color mt-2"
+                                className="color"
                                 key={color.color}
                                 onClick={updateColorFromPalette}/>
                             ))}
@@ -255,7 +270,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         onMouseDown={startDrawing}
                         onMouseUp={endDrawing}
                         onMouseMove={draw}
-                        onTouchStart={startDrawing}
+                        onTouchStart={startDrawingTouch}
                         onTouchEnd={endDrawing}
                         onTouchMove={drawTouch}
                         ref={canvasRef}
@@ -264,6 +279,9 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         />
                 </div>
             </div>
+            <footer>
+                <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
+            </footer>
         </div>
     );
 }

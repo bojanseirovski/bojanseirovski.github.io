@@ -24,14 +24,14 @@ h1 {
 
 .draw-area-background{
 	width: 90%;
-	height: 85%;
+	height: 100%;
 	background-color: transparent;
 	background-image: url("http://localhost:3000/crayons.png");
 	background-repeat: no-repeat;
 }
 .draw-area {
 	margin-top: 10%;
-	height: 80%;
+	/* height: 88%; */
 	border: 2px solid #0FA000;
 	border-radius: 20px;
 	position: relative;
@@ -50,29 +50,27 @@ div.toolbox{
 	padding-left: 30px;
 }
 
-div.toolbox .buttons{
-	padding-left: 20px;
-}
-
 .colorPaletteLabel {
 	font-weight: 800;
 }
 
 img.color{
-	width: 88%;
-	height: 45px;
+	width: 80%;
+	height: 25px;
 	margin-left: 20px;
 	cursor: pointer;
+	margin-top: 5%;
 }
 
 img.color[data-color=black]{
-	margin-left: 20%;
+	margin-left: 40%;
 }
 
 button.btn.color{
 	width: 88%;
 	margin-left: 20px;
 	cursor: pointer;
+	margin-top: 5%;
 }
 
 .paletteContainer .brushWidth,
@@ -90,4 +88,32 @@ button.btn.color{
 canvas#canvasDraw.draw{
 	cursor: crosshair;
 	border: 2px dotted #000000;
+}
+
+@media only screen and (max-width: 1200px) 
+{
+	.draw-area {
+		margin-top: 0px;
+		height: 100%!important;
+		position: relative;
+	}
+	img.color
+	{
+		width: 45px;
+		height: 15px;
+		margin-left: 10px;
+		cursor: pointer;
+	}
+	button.btn.color
+	{
+		font-size: 12px;
+		width: 45px;
+		margin-left: 10px;
+		cursor: pointer;
+	}
+
+	.paletteContainer input
+	{
+		width: 40px;
+	}
 }

@@ -26,9 +26,6 @@ function App() {
               />
           </div>
         </div>
-        <footer>
-            <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
-        </footer>
     </div>
   );
 }
