@@ -38,20 +38,6 @@ h1 {
 	background-color: white;
 }
 
-.Menu {
-	width: 850px;
-	height: 80px;
-	display: flex;
-	justify-content:left;
-	border-radius: 5px;
-	align-items: center;
-	background-color: #ffffff;
-	margin: auto;
-	margin-top: 10px;
-	margin-left: 30%;
-	vertical-align: left;
-}
-
 .multicolortext {
 	background-image: linear-gradient(to left, violet, indigo, green, blue, yellow, orange, red);
 	-webkit-background-clip: text;
@@ -60,9 +46,6 @@ h1 {
 	color: transparent;
 }
 
-.draw {
-	cursor: crosshair;
-}
 div.toolbox{
 	padding-left: 30px;
 }
@@ -105,6 +88,6 @@ button.btn.color{
 }
 
 canvas#canvasDraw.draw{
-	/* width:100%;
-	height: 100%; */
+	cursor: crosshair;
+	border: 2px dotted #000000;
 }

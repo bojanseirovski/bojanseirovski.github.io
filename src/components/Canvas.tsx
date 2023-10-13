@@ -39,11 +39,15 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         ctx.strokeStyle = lineColor;
         ctx.lineWidth = lineWidth;
         ctxRef.current = ctx;
+
         function handleResize() {
             let cCanvas = document.getElementById('canvasDraw');
             cCanvas.width = window.innerWidth*0.55;
             cCanvas.height =  window.innerHeight*0.55;
+            let cntx = cCanvas?.getContext("2d");
+            cntx.lineWidth = lineWidth;
           }
+
           window.addEventListener('resize', handleResize);
     }, [lineColor, lineOpacity, lineWidth]);
 
@@ -66,8 +70,8 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     const startDrawing = (e:any) => {
         ctxRef.current?.beginPath();
         ctxRef.current?.moveTo(
-            e.nativeEvent.offsetX,
-            e.nativeEvent.offsetY
+            e.offsetX,
+            e.offsetY
         );
         setIsDrawing(true);
     };
@@ -77,23 +81,35 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         setIsDrawing(false);
     };
 
+    const draw = (e:any) => {
+        if (!isDrawing) {
+            return;
+        }
+        ctxRef.current?.lineTo(
+            e.nativeEvent.offsetX,
+            e.nativeEvent.offsetY
+        );
+        ctxRef.current?.stroke();
+    };
+
+    const drawTouch = (e:any) => {
+        if (!isDrawing) {
+            return;
+        }
+        console.log(e);
+        ctxRef.current?.lineTo(
+            e.nativeEvent.offsetX,
+            e.nativeEvent.offsetY
+        );
+        ctxRef.current?.stroke();
+    };
+
     const clearDrawing = () => {
         resetColors();
         setBlackColor();
         ctxRef.current.clearRect(0, 0, cWidth, cHeight);
     }
   
-    const draw = (e:any) => {
-        if (!isDrawing) {
-            return;
-        }
-        ctxRef.current.lineTo(
-            e.nativeEvent.offsetX,
-            e.nativeEvent.offsetY
-        );
-        ctxRef.current.stroke();
-    };
-
     const updateColorFromPalette = (e:any) => {
         resetColors();
         selectedColor = e.target.getAttribute("data-color");
@@ -123,18 +139,22 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         createEl.remove();
     }
 
-    const setColoringBg = () => {
-        let index =  Math.floor(Math.random() * 3);
-
-        setBgImage(cHeight, cWidth, ctxRef.current, "/img/" + imgList[index]);
+    const setColoringBg = (e:any) => {
+        let index = e.target.getAttribute("data-index");
+        setBgImage(
+            canvasRef.current.height,
+            canvasRef.current.width,
+            ctxRef.current,
+            "/img/" + imgList[index]
+        );
     }
 
     return (
         <div className="coloringWrapper mt-4">
             <div className="row pl-3">
-                <div className="col-3 toolbox">
+                <div className="col-2 toolbox">
                     <div className="row buttons pb-1">
-                        <div className="col-2 save">
+                        <div className="col-4 save">
                             <button
                                 className="btn btn-success saveBtn"
                                 onClick={saveCanvasToImagePng}
@@ -142,15 +162,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                                 <i className="bi bi-save"></i>
                             </button>
                         </div>
-                        {/* <div className="col-2 undo">
-                            <button
-                                className="btn btn-info undoBtn"
-                                title="Undo"
-                                onClick={cUndo}>
-                                <i className="bi bi-arrow-return-left"></i>
-                            </button>
-                        </div> */}
-                        <div className="col-2 printImage">
+                        <div className="col-4 printImage">
                             <button
                                 data-canvas ="canvasDraw"
                                 data-svg = "paint"
@@ -160,7 +172,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                                     <i className="bi bi-printer"></i>
                             </button>
                         </div>
-                        <div className="col-2 clear">
+                        <div className="col-4 clear">
                             <button
                                 className="btn btn-danger clearBtn"
                                 title="Clear"
@@ -168,6 +180,14 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                                 <i className="bi bi-x-circle"></i>
                             </button>
                         </div>
+                       {/* <div className="col-2 undo">
+                            <button
+                                className="btn btn-info undoBtn"
+                                title="Undo"
+                                onClick={cUndo}>
+                                <i className="bi bi-arrow-return-left"></i>
+                            </button>
+                        </div> */}
                     </div>
                     <div className="row paletteContainer mt-4">
                         <div className="col-12 mt-2 brushWidth">
@@ -212,20 +232,20 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="col-9 drawCanvasBox">
+                <div className="col-10 drawCanvasBox">
                     <div className="row mb-1">
-                        <div className="col-12">
-                            <button type="button" className="btn btn-secondary" onClick={setColoringBg}>
-                                <i className="bi bi-card-image"></i>
+                        <div className="col-12 text-justify">
+                            <button type="button" data-index="0" className="btn btn-secondary" onClick={setColoringBg}>
+                                &nbsp;<i className="bi bi-card-image"></i>&nbsp;
                             </button>
-                            <button type="button" className="btn btn-secondary" onClick={setColoringBg}>
-                                <i className="bi bi-card-image"></i>
+                            <button type="button" data-index="1" className="btn btn-secondary" onClick={setColoringBg}>
+                                &nbsp;<i className="bi bi-card-image"></i>&nbsp;
                             </button>
-                            <button
-                                type="button" 
-                                className="btn btn-secondary"
-                                onClick={setColoringBg}>
-                                <i className="bi bi-card-image"></i>
+                            <button type="button" data-index="2"  className="btn btn-secondary" onClick={setColoringBg}>
+                                &nbsp;<i className="bi bi-card-image"></i>&nbsp;
+                            </button>
+                            <button type="button" data-index="3"  className="btn btn-secondary" onClick={setColoringBg}>
+                                &nbsp;<i className="bi bi-card-image"></i>&nbsp;
                             </button>
                         </div>
                     </div>
@@ -235,16 +255,15 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         onMouseDown={startDrawing}
                         onMouseUp={endDrawing}
                         onMouseMove={draw}
+                        onTouchStart={startDrawing}
+                        onTouchEnd={endDrawing}
+                        onTouchMove={drawTouch}
                         ref={canvasRef}
                         width={cWidth}
                         height={cHeight}
                         />
-                    <div id="paint" style={{display:"none"}}></div>
                 </div>
             </div>
-            <footer>
-                <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
-            </footer>
         </div>
     );
 }

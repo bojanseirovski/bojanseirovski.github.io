@@ -9,12 +9,11 @@ function App() {
   const [lineColor, setLineColor] = useState("black");
   const [lineOpacity, setLineOpacity] = useState(100);
 
-  // var cWidth = window.innerWidth*0.55;
-  // var cHeight =  window.innerHeight*0.5;
-
   return (
     <div className="App">
-        <h1 className="multicolortext">Coloring Book</h1>
+        <header>
+          <h1 className="multicolortext">Coloring Book</h1>
+        </header>
         <div className="draw-area-background">
           <div className="draw-area">
               <Canvas
@@ -27,6 +26,9 @@ function App() {
               />
           </div>
         </div>
+        <footer>
+            <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
+        </footer>
     </div>
   );
 }

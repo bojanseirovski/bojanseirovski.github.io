@@ -3,28 +3,15 @@
  */
 
 export function resizeImage(width: any, height: any, image: any, ctx: any) {
-    let iWidth = image.width;
-    let iHeight = image.height;
+    let scaleFactor = Math.min(width/image.width, height/image.height);
 
-    let finalW = width;
-    let finalH = height;
-    let padw = 0;
-    let padh = 0;
-
-    if (iWidth < width) {
-        finalW = iWidth;
-        padw = width / 4;
-    } else {
-        finalW = width / 2;
-    }
-    if (iHeight < height) {
-        finalH = iHeight;
-        padh = height / 4;
-    } else {
-        finalH = height / 2;
-    }
-
-    ctx.drawImage(image, padh, padw, finalH, finalW);
+    ctx.drawImage(
+        image,
+        0,
+        0,
+        image.height*scaleFactor,
+        image.width*scaleFactor
+    );
 }
 
 export function isSvgShape(element: any) {
