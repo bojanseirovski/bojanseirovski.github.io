@@ -2,15 +2,15 @@ import React, {useState} from "react";
 import { Routes, Route } from 'react-router-dom';
 import Canvas from "./components/Canvas";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import Dashboard from "./components/Dashboard";
-import Account from "./components/Account";
 import Register from "./components/Register";
 import Nav from "./components/Nav";
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-function App() {
+export default function App() {
   const [lineWidth, setLineWidth] = useState(20);
   const [lineColor, setLineColor] = useState("black");
   const [lineOpacity, setLineOpacity] = useState(100);
@@ -34,13 +34,15 @@ function App() {
               />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/account" element={<Account />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/logout" element={<Logout />} />
             </Routes>
+            <footer>
+                <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
+            </footer>
           </div>
         </div>
     </div>
   );
 }
 
-export default App;

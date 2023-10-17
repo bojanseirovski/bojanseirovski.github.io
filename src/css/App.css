@@ -1,3 +1,8 @@
+html, body {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
 .App {
   text-align: center;
 }
@@ -15,6 +20,17 @@
 	align-items: center;
 	background-image: linear-gradient(120deg, #ffff00 0%, #ebedee 100%) ;
 }
+
+a.nav_link {
+	color:#000000;
+	font-weight: 900;
+	text-decoration: none;
+}
+a.nav_link:hover{
+	color: #4644f0;
+	background-color: #fffa00;
+}
+
 
 h1 {
 	font-family: 'Roboto', cursive;

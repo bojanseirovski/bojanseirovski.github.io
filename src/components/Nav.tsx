@@ -1,27 +1,34 @@
+import { useCookies } from 'react-cookie';
 
 const Nav = () => {
+    const [cookies, ] = useCookies(['user']);
 
     return (
         <div className="row text-right nav">
-          <div className="col-2"></div>
-          <div className="col-2">
-            <a href="/">Draw</a>
+          <div className={ cookies.loggedIn === 0 ? "col-3" : "col-3"}>
+            <a className="nav_link" href="/">Draw</a>
           </div>
-          <div className="col-2">
-            <a href="/login">Login</a>
+          { cookies.loggedIn ===1 ? 
+          <div className={ cookies.loggedIn === 0 ? "col-4" : "col-5"}>
+            <a className="nav_link" href="/dashboard">Dashboard</a>
           </div>
-          <div className="col-2">
-            <a href="/register">Register</a>
+          : "" }
+          { cookies.loggedIn!==1 ? 
+          <div className="col-3">
+            <a className="nav_link" href="/login">Login</a> 
           </div>
-          <div className="col-2">
-            <a href="/account">Account</a>
+          : "" }
+          { cookies.loggedIn!==1 ? 
+          <div className="col-3">
+            <a className="nav_link" href="/register">Register</a> 
           </div>
+          : "" }
+
+          { cookies.loggedIn===1 ? 
           <div className="col-2">
-            <a href="/dashboard">Dashboard</a>
+            <a className="nav_link" href="/logout">Logout</a>
           </div>
-          <div className="col-2">
-            <a href="/logout">Logout</a>
-          </div>
+          : ""}
         </div>
     );
 }

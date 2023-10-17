@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
 import {print,setBgImage} from "../helpers/ImageHelper";
 
 type CanvasProps = {
@@ -13,7 +15,7 @@ type CanvasProps = {
 }
 
 const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
-    const {lineColor, lineOpacity, lineWidth, setLineColor, setLineWidth, setLineOpacity } = props;
+    const {lineColor, lineOpacity, lineWidth, setLineColor, setLineWidth, setLineOpacity} = props;
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const ctxRef = React.useRef<CanvasRenderingContext2D | null>(null);
     const [isDrawing, setIsDrawing] = useState(false);
@@ -24,6 +26,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         'sonic.svg',
         'cheshire.svg',
     ];
+    const [cookies, ] = useCookies(['user']);
     let canvasId:string = "canvasDraw";
     let selectedColor: string = "#000000";
 
@@ -143,6 +146,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     const saveCanvasToImagePng = (e:any) => {
         let url = document.getElementById(canvasId).toDataURL();
         const createEl = document.createElement('a');
+        handleSaveImage(url);
 
         createEl.href = url;
         createEl.download = "download-this-canvas";
@@ -161,18 +165,38 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         );
     }
 
+    const handleSaveImage = (imageData:any) => {
+        const uid = {
+            //  put uid from login here
+            username: cookies.uid,
+            imageData: imageData
+        };
+        let canSave = false;
+        if (canSave){
+            axios.post('/', uid)
+            .then(response => {
+              //    populate list and display
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+    };
+
     return (
         <div className="coloringWrapper mt-4">
             <div className="row pl-3">
                 <div className="col-2 toolbox">
                     <div className="row buttons pb-1">
                         <div className="col-4 save">
+                            { cookies.loggedIn===1 ? 
                             <button
                                 className="btn btn-success saveBtn"
                                 onClick={saveCanvasToImagePng}
                                 title="Save">
                                 <i className="bi bi-save"></i>
                             </button>
+                            : "" }
                         </div>
                         <div className="col-4 printImage">
                             <button
@@ -276,9 +300,6 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         />
                 </div>
             </div>
-            <footer>
-                <a href="https://bojanseirovski.github.io/">https://bojanseirovski.github.io/</a>
-            </footer>
         </div>
     );
 }
