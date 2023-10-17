@@ -1,0 +1,9 @@
+.register {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.register .row .col-12{
+    padding-left:40px;
+    padding-right:40px;
+    margin-top: 10px;
+}

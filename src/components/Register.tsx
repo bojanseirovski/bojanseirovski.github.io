@@ -1,13 +1,13 @@
 // import React, {useEffect, useState} from "react";
-import '../css/Login.css';
+import '../css/Register.css';
 
-const Login = () => {
+const Register = () => {
 
     return (
-        <div className="coloringWrapper login mt-4 pl-3 pr-3">
+        <div className="coloringWrapper register mt-4 pl-3 pr-3">
             <div className="row">
                 <div className="col-12">
-                    Login
+                    Register
                 </div>
             </div>
             <div className="row">
@@ -26,11 +26,11 @@ const Login = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <button type="submit" className="btn btn-primary">Start drawing</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
     );
 }
 
-export default Login;
+export default Register;

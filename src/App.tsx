@@ -1,6 +1,12 @@
 import React, {useState} from "react";
+import { Routes, Route } from 'react-router-dom';
 import Canvas from "./components/Canvas";
-import './App.css';
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import Account from "./components/Account";
+import Register from "./components/Register";
+import Nav from "./components/Nav";
+import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -14,16 +20,23 @@ function App() {
         <header>
           <h1 className="multicolortext">Coloring Book</h1>
         </header>
+        <Nav/>
         <div className="draw-area-background">
           <div className="draw-area">
-              <Canvas
+            <Routes>
+              <Route path="/" element={<Canvas
                   lineOpacity={lineOpacity}
                   lineColor={lineColor}
                   lineWidth={lineWidth}
                   setLineColor={setLineColor}
                   setLineWidth={setLineWidth}
                   setLineOpacity={setLineOpacity}
-              />
+              />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
           </div>
         </div>
     </div>
