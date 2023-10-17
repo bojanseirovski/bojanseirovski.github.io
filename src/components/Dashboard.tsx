@@ -4,26 +4,29 @@ import axios from 'axios';
 
 const Dashboard = () => {
     const [cookies, setCookie] = useCookies(['user']);
+
     useEffect(() => {
         if (cookies.loggedIn !== 1 ) {
             window.location.href= "/login";
         }
-        // handleGetList();
-    }, [cookies,setCookie]);
-
-    const handleGetList = () => {
-        const uid = {
-            //  put uid from login here
-            username: cookies.uid
+        const handleGetList = () => {
+            const uid = {
+                //  put uid from login here
+                username: cookies.uid
+            };
+            let canSave = false;
+            if (canSave) {
+                axios.post('/', uid)
+                .then(response => {
+                  //    populate list and display
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            }
         };
-        axios.post('/', uid)
-        .then(response => {
-          //    populate list and display
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    };
+        handleGetList();
+    }, [cookies,setCookie]);
 
     return (
         <div className="coloringWrapper mt-4">
