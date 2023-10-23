@@ -1,31 +1,22 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
+import {getColoringsReq} from '../helpers/API';
+import Coloring from "./list_items/Coloring";
 
 const Dashboard = () => {
     const [cookies, setCookie] = useCookies(['user']);
-
+    const [colorings, setColorings] = useState(Array<any>);
+    
     useEffect(() => {
         if (cookies.loggedIn !== 1 ) {
             window.location.href= "/login";
         }
-        const handleGetList = () => {
-            const uid = {
-                //  put uid from login here
-                username: cookies.uid
-            };
-            let canSave = false;
-            if (canSave) {
-                axios.post('/', uid)
-                .then(response => {
-                  //    populate list and display
-                })
-                .catch(error => {
-                  console.error(error);
-                });
-            }
-        };
-        handleGetList();
+        getColoringsReq((response:any) => {
+            setColorings(response);
+        },
+        () => {
+
+        });
     }, [cookies,setCookie]);
 
     return (
@@ -40,6 +31,9 @@ const Dashboard = () => {
                     <h2>Your projects</h2>
                 </div>
             </div>
+            {colorings.map((element:any, i:number) => {
+                return (<Coloring cid={element.id} date={element.timestamp}/>)
+            })}
         </div>
     );
 }

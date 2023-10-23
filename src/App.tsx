@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import { Routes, Route } from 'react-router-dom';
 import Canvas from "./components/Canvas";
 import Login from "./components/Login";
@@ -18,7 +18,7 @@ export default function App() {
   return (
     <div className="App">
         <header>
-          <h1 className="multicolortext">Coloring Book</h1>
+          <h1 className="multicolortext">Doodles</h1>
         </header>
         <Nav/>
         <div className="draw-area-background">

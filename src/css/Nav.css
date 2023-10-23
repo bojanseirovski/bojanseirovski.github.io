@@ -1,0 +1,35 @@
+.nav .item {
+	width: 127px;
+	height: 27px;
+	background-color: transparent;
+	opacity: 0.85;
+	background-size: 100%;
+}
+a.nav_link {
+	color: #FDFD14;
+	font-weight: 900;
+	text-decoration: none;
+	opacity: 1;
+}
+
+a.nav_link:hover{
+	color: #ffffff;
+}
+
+.nav_red{
+    background-color: transparent;
+	background: url("http://localhost:3000/img/red.png") no-repeat top;
+}
+
+.nav_blue{
+    background-color: transparent;
+	background: url("http://localhost:3000/img/blue.png") no-repeat top;	
+}
+.nav_green{
+	background-color: transparent;
+	background: url("http://localhost:3000/img/green.png") no-repeat top;
+}
+.nav_black{
+	background-color: transparent;
+	background: url("http://localhost:3000/img/black.png") no-repeat top;
+}

@@ -6,7 +6,9 @@ const Logout = () => {
     useEffect(() => {
         if (cookies.loggedIn === 1 ) {
             setCookie('loggedIn', 0, { path: '/' });
-            setCookie('uid', 0, { path: '/' });
+            window.localStorage.setItem("accessToken", "");
+            window.localStorage.setItem("refreshToken", "");
+            window.localStorage.setItem("uid", "");
             window.location.href= "/logout";
         }
         
@@ -16,7 +18,7 @@ const Logout = () => {
         <div className="coloringWrapper mt-4">
             <div className="row">
                 <div className="col-12">
-                    You have been logged out!
+                <h2 className="multicolortext">You have been logged out!</h2>
                 </div>
             </div>
             <div className="row">

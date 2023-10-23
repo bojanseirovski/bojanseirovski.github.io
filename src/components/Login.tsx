@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
 import ErrorMessage from './messages/ErrorMessage';
+import {loginReq} from '../helpers/API';
 import '../css/Login.css';
 
 const Login = () => {
@@ -30,37 +30,25 @@ const Login = () => {
         setToggleE(emailError);
         setToggleP(passwordError);
         if (!emailError && !passwordError) {
-            handlelogin();
+            handlelogin(username, password);
         }
-        logIn();
     }
 
-    const handlelogin = () => {
-        const loginCreds = {
-            username: emailRef.current.value,
-            password: passRef.current.value
-        };
-        axios.post('/', loginCreds)
-        .then(response => {
-            // set uid cookie
-            setCookie('uid', 1, { path: '/' });
-            logIn();
-        })
-        .catch(error => {
-          console.error(error);
+    const handlelogin = (username:string, password:string) => {
+        loginReq(username, password, () => {
+            setCookie('loggedIn', 1, { path: '/' });
+            window.location.href = "/";
+        },
+        () => {
+            setToggleE(true);
         });
     };
-
-    const logIn = () => {
-        setCookie('loggedIn', 1, { path: '/' });
-        window.location.href= "/";
-    }
 
     return (
         <div className="coloringWrapper login mt-4 pl-3 pr-3">
             <div className="row">
                 <div className="col-12">
-                    Login
+                    <h2 className="multicolortext">Login to your account:</h2>
                 </div>
             </div>
             <div className="row">
@@ -81,7 +69,7 @@ const Login = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <button type="submit" className="btn btn-primary" onClick={validateAndLogin}>Start drawing</button>
+                    <button type="submit" className="btn btn-primary" onClick={validateAndLogin}>Start Doodling</button>
                 </div>
             </div>
         </div>

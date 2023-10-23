@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
-import {print,setBgImage} from "../helpers/ImageHelper";
+import { saveColoringsReq, getOneColoringReq } from '../helpers/API';
+import { print, setBgImage } from "../helpers/ImageHelper";
+import { getQuery } from "../helpers/PageHelper";
+import '../css/Canvas.css';
 
 type CanvasProps = {
     lineOpacity: number;
@@ -19,13 +21,21 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const ctxRef = React.useRef<CanvasRenderingContext2D | null>(null);
     const [isDrawing, setIsDrawing] = useState(false);
-    const colorPalette = [{"color":"yellow","value":"#FFFF00"}, {"color":"red","value":"#FF0000"}, {"color":"green","value":"#00FF00"}, {"color":"blue","value":"#0000FF"}, {"color":"black", "value":"#000000"}];
+    const colorPalette = [
+        { "color":"yellow", "value":"#FFFF00"},
+        { "color":"red", "value":"#FF0000"},
+        {"color":"green","value":"#00FF00"},
+        {"color":"blue","value":"#0000FF"},
+        {"color":"black", "value":"#000000"}
+    ];
+
     const imgList = [
         'happy2.svg',
         'snowflake.svg',
         'sonic.svg',
         'cheshire.svg',
     ];
+
     const [cookies, ] = useCookies(['user']);
     let canvasId:string = "canvasDraw";
     let selectedColor: string = "#000000";
@@ -52,12 +62,15 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         }
 
         window.addEventListener('resize', handleResize);
+        let cid = getQuery(window.location.href, "coloring");
+        if (cid) {
+            loadSavedImage(parseInt(cid));
+        }
     }, [lineColor, lineOpacity, lineWidth]);
-
 
     const setBlackColor = () => {
         let blackColor = document.querySelectorAll("[data-color='black']")[0];
-        blackColor.style.marginLeft = "20%";
+        blackColor.style.marginLeft = "40px";
         selectedColor = "black";
         setLineColor(selectedColor);
     }
@@ -66,7 +79,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         let colors = document.getElementsByClassName('color');
         let colorsCount = colors.length;
         for (let i=0; i< colorsCount; i++) {
-            colors[i].style.marginLeft= "20px";
+            colors[i].style.marginLeft= "40px";
         }
     }
 
@@ -78,7 +91,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         );
         setIsDrawing(true);
     };
-  
+
     const endDrawing = () => {
         ctxRef.current.closePath();
         setIsDrawing(false);
@@ -105,7 +118,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         );
         setIsDrawing(true);
     };
-  
+
     const drawTouch = (e:any) => {
         if (!isDrawing) {
             return;
@@ -124,11 +137,11 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
         setBlackColor();
         ctxRef.current.clearRect(0, 0, cWidth, cHeight);
     }
-  
+
     const updateColorFromPalette = (e:any) => {
         resetColors();
         selectedColor = e.target.getAttribute("data-color");
-        e.target.style.marginLeft = "40%";
+        e.target.style.marginLeft = "60px";
         setLineColor(selectedColor);
     }
 
@@ -145,14 +158,14 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
 
     const saveCanvasToImagePng = (e:any) => {
         let url = document.getElementById(canvasId).toDataURL();
-        const createEl = document.createElement('a');
         handleSaveImage(url);
+        // const createEl = document.createElement('a');
 
-        createEl.href = url;
-        createEl.download = "download-this-canvas";
+        // createEl.href = url;
+        // createEl.download = "download-this-canvas";
 
-        createEl.click();
-        createEl.remove();
+        // createEl.click();
+        // createEl.remove();
     }
 
     const setColoringBg = (e:any) => {
@@ -166,23 +179,20 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     }
 
     const handleSaveImage = (imageData:any) => {
-        const uid = {
-            //  put uid from login here
-            username: cookies.uid,
-            imageData: imageData
-        };
-        let canSave = false;
-        if (canSave){
-            axios.post('/', uid)
-            .then(response => {
-              //    populate list and display
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        }
+        saveColoringsReq(imageData);
     };
 
+    const loadSavedImage = (id:number) => {
+        getOneColoringReq(id, (response:any) => {
+            var canvas = document.getElementById("canvasDraw");
+            var ctx = canvas.getContext("2d");
+            var image = new Image();
+            image.onload = function() {
+                ctx.drawImage(image, 0, 0);
+            };
+            image.src = response.image;
+        }, () => {})
+    }
     return (
         <div className="coloringWrapper mt-4">
             <div className="row pl-3">
@@ -249,7 +259,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                         <div className="col-12 paletteWidth">
                             <button
                                 type="button"
-                                className="btn btn-secondary btn-lg color"
+                                className="btn btn-secondary btn-lg color erasor"
                                 title="white"
                                 data-color="white"
                                 key="white"
@@ -261,7 +271,7 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
                                 src={"/img/"+ color.color+".png"}
                                 alt={color.color}
                                 data-color={color.color}
-                                className="color"
+                                className="color crayon"
                                 key={color.color}
                                 onClick={updateColorFromPalette}/>
                             ))}
@@ -304,4 +314,4 @@ const Canvas:React.FunctionComponent<CanvasProps> = (props) => {
     );
 }
 
-export default Canvas;
+export default Canvas;  
