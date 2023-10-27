@@ -106,7 +106,7 @@ export const loginReq = (username: string, password: string, done:any, err:any) 
 }
 
 export const registerReq = (username: string, password: string, done:any, err:any) => {
-    api.post("/token", {
+    api.post("/register", {
         username: username,
         password: password
     })
